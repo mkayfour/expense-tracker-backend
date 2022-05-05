@@ -26,7 +26,7 @@ db.sequelize.sync({ force: true }).then(() => {
 });
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
+    res.json({ message: "Health check ok!" });
   });
 
   app.use(express.json());
