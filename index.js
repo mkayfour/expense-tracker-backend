@@ -6,8 +6,9 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-require("./routes/index")(app);
-
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 
 // Where we will keep books
 let books = [];
@@ -28,16 +29,9 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to bezkoder application." });
   });
 
-app.post('/book', (req, res) => {
-    // We will be coding here
-
-    const book = req.body;
-
-    // Output the book to the console for debugging
-    console.log(book);
-    books.push(book);
-
-    res.send('Book is added to the database');
-});
+  app.use(express.json());
+  app.use("/", indexRouter);
+  app.use("/api/v1/users", usersRouter);
+  app.use("/api/v1/auth", authRouter);
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
