@@ -4,7 +4,7 @@ const cors = require('cors');
 
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
