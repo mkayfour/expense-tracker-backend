@@ -1,7 +1,8 @@
-const express = require('express')
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
+require("dotenv").config();
 
 const app = express();
 const port = 8080;
@@ -22,16 +23,18 @@ app.use(bodyParser.json());
 const db = require("./models");
 // db.sequelize.sync();
 db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
+  console.log("Drop and re-sync db.");
 });
 
 app.get("/", (req, res) => {
-    res.json({ message: "Health check ok!" });
-  });
+  res.json({ message: "Health check ok!" });
+});
 
-  app.use(express.json());
-  app.use("/", indexRouter);
-  app.use("/api/v1/users", usersRouter);
-  app.use("/api/v1/auth", authRouter);
+app.use(express.json());
+app.use("/", indexRouter);
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/auth", authRouter);
 
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Hello world app listening on port ${port}!`)
+);
