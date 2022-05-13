@@ -1,0 +1,25 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Expense Tracker API",
+    "version": "v1"
+  },
+  "tags": [{ "name": "users", "description": "something about users" }],
+  "paths": {
+    "/api/v1/users/": {
+      "get": {
+        "tags": ["users"],
+        "operationId": "getAllUsers",
+        "summary": "List all the users",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "200 300 response",
+            "examples": {}
+          }
+        }
+      }
+    }
+  },
+  "consumes": ["application/json"]
+}
