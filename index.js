@@ -36,5 +36,5 @@ app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.listen(port, () =>
-  console.log(`Hello world app listening on port ${port}!`)
+  console.log(`Hello world app listening on port ${process.env.PORT || port}!`)
 );
