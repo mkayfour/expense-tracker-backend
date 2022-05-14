@@ -41,11 +41,11 @@ router.post("/register", async (req, res, next) => {
       token,
       user_id: userCreated.id,
     });
+
     if (!newToken) {
-      throw new ErrorHandler(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        "Couldn't create token"
-      );
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: "Couldn't create access token",
+      });
     }
 
     const refreshToken = createRefreshToken();
@@ -57,10 +57,9 @@ router.post("/register", async (req, res, next) => {
     });
 
     if (!newRefreshToken) {
-      throw new ErrorHandler(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        "Couldn't create refresh token"
-      );
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: "Couldn't create refresh token",
+      });
     }
 
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
@@ -274,13 +273,36 @@ router.get("/me", VerifyToken, async (req, res, next) => {
     }
     res.status(StatusCodes.OK).json({
       data: {
-        email: user.email,
-        firstname: user.firstname,
         id: user.id,
-        lastname: user.lastname,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
         created_at: user.created_at,
         updated_at: user.updated_at,
+        gender: user.gender,
+        image_url: user.image_url,
       },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/me", VerifyToken, async (req, res, next) => {
+  try {
+    const user = await models.User.update(req.body, {
+      where: { id: req.userId },
+    });
+
+    if (!user) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        error: `No user with id ${req.userId}`,
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      data: user,
+      success: "Profile updated successfully.",
     });
   } catch (err) {
     next(err);

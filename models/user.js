@@ -6,6 +6,22 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
+      first_name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      last_name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      gender: {
+        type: DataTypes.ENUM("male", "female", "other"),
+        allowNull: true,
+      },
+      image_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       },
-      //
     }
   );
 
