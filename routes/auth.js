@@ -11,7 +11,6 @@ const { checkHash } = require("../helpers/security");
 require("dotenv").config();
 
 router.post("/register", async (req, res, next) => {
-    console.log("----------- reached in register --------")
   try {
     if (!req.body.email) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, "Email is required.");
@@ -26,10 +25,9 @@ router.post("/register", async (req, res, next) => {
     });
 
     if (doesUserExist) {
-      throw new ErrorHandler(
-        StatusCodes.CONFLICT,
-        `A user with email ${req.body.email} already exists`
-      );
+      res.status(StatusCodes.CONFLICT).json({
+        error: "The user with this email already exists.",
+      });
     }
 
     const userCreated = await models.User.create({
